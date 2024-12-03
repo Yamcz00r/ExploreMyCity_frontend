@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.leaflet-container {
+  min-height: 100vh;
+  z-index: 0;
+}
