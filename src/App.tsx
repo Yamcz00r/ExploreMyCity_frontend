@@ -1,10 +1,11 @@
-import Map from "./components/Map";
-import Navbar from "./components/Navbar";
-export default function Home() {
+import Box from '@mui/material/Box'
+
+export default function Login() {
   return (
     <>
-      <Navbar />
-      <Map />
+      <Box component="main" >
+
+      </Box>
     </>
   );
 }
