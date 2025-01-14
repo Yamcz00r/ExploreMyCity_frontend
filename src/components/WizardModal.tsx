@@ -3,6 +3,7 @@ import { Modal } from "@mui/material";
 import Wizard from "./Wizard";
 import EmailStep from "./Steps/EmailStep";
 import PasswordStep from "./Steps/PasswordStep";
+import Step from "./Steps/Step";
 import CreateAccountStep from "./Steps/CreateAccountStep";
 import { useAppSelector } from "../hooks";
 type WizardModalProps = {
@@ -12,15 +13,18 @@ type WizardModalProps = {
 
 function WizardModal({ isOpen, handleClose }: WizardModalProps) {
   const [currentStep, setCurrentStep] = useState(0);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const isUserExisting = useAppSelector((state) => state.login.existingUser);
-  const STEPS = [0, 1, 2, 3];
-  console.log(currentStep, isUserExisting);
   const handleNextStep = () => {
-    // if (currentStep > STEPS.length - 1) {
-    //   setCurrentStep(0);
-    //   return;
-    // }
     setCurrentStep((prevStep) => prevStep + 1);
+  };
+
+  const onWizardSubmit = () => {
+    if (emailError || passwordError) {
+      return;
+      //Going to be replaced with the toast notifications system for now it will suffice
+    }
   };
 
   return (
@@ -29,15 +33,27 @@ function WizardModal({ isOpen, handleClose }: WizardModalProps) {
         currentStep={currentStep}
         handleClose={handleClose}
         handleStepChange={setCurrentStep}
+        handleWizardComplete={() => {}}
       >
-        <EmailStep nextStep={handleNextStep} currentStep={currentStep} />
-        {isUserExisting ? (
-          <PasswordStep nextStep={handleNextStep} currentStep={currentStep} />
-        ) : (
-          <CreateAccountStep
-            nextStep={handleNextStep}
-            currentStep={currentStep}
-          />
+        <Step
+          handleStepChange={handleNextStep}
+          title="Write your email"
+          isActive={currentStep === 0}
+          disabled={emailError}
+        >
+          <EmailStep isError={emailError} onError={setEmailError} />
+        </Step>
+        {isUserExisting && (
+          <Step
+            handleStepChange={handleNextStep}
+            title="Write your password"
+            isActive={currentStep === 1}
+            disabled={passwordError}
+            buttonTitle="Login"
+            buttonType="submit"
+          >
+            <PasswordStep isError={passwordError} onError={setPasswordError} />
+          </Step>
         )}
       </Wizard>
     </Modal>

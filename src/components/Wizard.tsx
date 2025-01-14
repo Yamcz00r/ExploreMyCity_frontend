@@ -3,11 +3,13 @@ import { useTheme } from "@mui/material/styles";
 import { ArrowBack, Close } from "@mui/icons-material";
 import { useAppDispatch } from "../hooks";
 import { resetLoginValues } from "../loginSlice";
-type StepProps = {
+import { FormEvent } from "react";
+type WizardProps = {
   children?: React.ReactNode;
   currentStep: number;
   handleStepChange: React.Dispatch<React.SetStateAction<number>>;
   handleClose: () => void;
+  handleWizardComplete: () => void;
 };
 
 function Wizard({
@@ -15,7 +17,8 @@ function Wizard({
   handleStepChange,
   currentStep,
   handleClose,
-}: StepProps) {
+  handleWizardComplete,
+}: WizardProps) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const handleBackStep = () => {
@@ -28,6 +31,12 @@ function Wizard({
   const handleCloseWizard = () => {
     dispatch(resetLoginValues());
     handleClose();
+  };
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    handleWizardComplete();
+    dispatch(resetLoginValues());
   };
 
   return (
@@ -44,57 +53,71 @@ function Wizard({
         paddingY: "2rem",
       }}
     >
-      {currentStep === 0 ? (
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
-          <IconButton
+      <form onSubmit={handleSubmit}>
+        {currentStep === 0 ? (
+          <Box
             sx={{
-              color: theme.palette.primary.contrastText,
-              backgroundColor: theme.palette.primary.main,
-              "&:hover": {
-                color: theme.palette.primary.main,
-              },
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
             }}
-            onClick={handleCloseWizard}
           >
-            <Close />
-          </IconButton>
-        </Box>
-      ) : (
-        ""
-      )}
-      {currentStep !== 0 ? (
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
-          <IconButton
+            <IconButton
+              sx={{
+                color: theme.palette.primary.contrastText,
+                backgroundColor: theme.palette.primary.main,
+                "&:hover": {
+                  color: theme.palette.primary.main,
+                },
+              }}
+              onClick={handleCloseWizard}
+            >
+              <Close />
+            </IconButton>
+          </Box>
+        ) : (
+          ""
+        )}
+        {currentStep !== 0 ? (
+          <Box
             sx={{
-              color: theme.palette.primary.contrastText,
-              backgroundColor: theme.palette.primary.main,
-              "&:hover": {
-                color: theme.palette.primary.main,
-              },
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
-            onClick={handleBackStep}
           >
-            <ArrowBack />
-          </IconButton>
-        </Box>
-      ) : (
-        ""
-      )}
-      {children}
+            <IconButton
+              sx={{
+                color: theme.palette.primary.contrastText,
+                backgroundColor: theme.palette.primary.main,
+                "&:hover": {
+                  color: theme.palette.primary.main,
+                },
+              }}
+              onClick={handleBackStep}
+            >
+              <ArrowBack />
+            </IconButton>
+            <IconButton
+              sx={{
+                color: theme.palette.primary.contrastText,
+                backgroundColor: theme.palette.primary.main,
+                "&:hover": {
+                  color: theme.palette.primary.main,
+                },
+              }}
+              onClick={handleCloseWizard}
+            >
+              <Close />
+            </IconButton>
+          </Box>
+        ) : (
+          ""
+        )}
+        {children}
+      </form>
     </Paper>
   );
 }

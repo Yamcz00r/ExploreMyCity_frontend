@@ -3,14 +3,16 @@ import { useTheme } from "@mui/material/styles";
 interface StepButtonProps {
   onClick: () => void;
   disabled: boolean;
-  text: string;
+  text?: string;
+  isSubmit?: boolean;
 }
 
-function StepButton({ onClick, disabled, text }: StepButtonProps) {
+function StepButton({ onClick, disabled, text, isSubmit }: StepButtonProps) {
   const theme = useTheme();
   return (
     <Box>
       <Button
+        type={isSubmit ? "submit" : "button"}
         disabled={disabled}
         onClick={onClick}
         sx={{
@@ -21,7 +23,7 @@ function StepButton({ onClick, disabled, text }: StepButtonProps) {
           textAlign: "center",
         }}
       >
-        {text}
+        {text ? text : "Next"}
       </Button>
     </Box>
   );
