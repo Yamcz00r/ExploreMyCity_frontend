@@ -1,7 +1,7 @@
 import { TextField, Box, InputAdornment } from "@mui/material";
 import { Email } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { loginEmail } from "../../loginSlice";
+import { loginEmail } from "../../wizardSlice";
 
 export type InputStepProps = {
   isError: boolean;
@@ -9,7 +9,7 @@ export type InputStepProps = {
 };
 
 function EmailStep({ isError, onError }: InputStepProps) {
-  const enteredEmail = useAppSelector((state) => state.login.email);
+  const enteredEmail = useAppSelector((state) => state.wizard.email);
   const dispatch = useAppDispatch();
 
   const inputBlurHandler = () => {

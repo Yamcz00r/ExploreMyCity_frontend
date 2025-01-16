@@ -2,7 +2,7 @@ import { IconButton, Paper, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { ArrowBack, Close } from "@mui/icons-material";
 import { useAppDispatch } from "../hooks";
-import { resetLoginValues } from "../loginSlice";
+import { resetLoginValues, resetUserData } from "../wizardSlice";
 import { FormEvent } from "react";
 type WizardProps = {
   children?: React.ReactNode;
@@ -30,6 +30,7 @@ function Wizard({
 
   const handleCloseWizard = () => {
     dispatch(resetLoginValues());
+    dispatch(resetUserData());
     handleClose();
   };
 

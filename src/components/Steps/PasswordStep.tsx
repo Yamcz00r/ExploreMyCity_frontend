@@ -3,9 +3,9 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import type { InputStepProps } from "./EmailStep";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { loginPassword } from "../../loginSlice";
+import { loginPassword } from "../../wizardSlice";
 function PasswordStep({ isError, onError }: InputStepProps) {
-  const enteredPassword = useAppSelector((state) => state.login.password);
+  const enteredPassword = useAppSelector((state) => state.wizard.password);
   const [isPasswordVisibile, setIsPasswordVisibile] = useState(false);
   const dispatch = useAppDispatch();
 

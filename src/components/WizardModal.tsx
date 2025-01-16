@@ -15,7 +15,10 @@ function WizardModal({ isOpen, handleClose }: WizardModalProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  const isUserExisting = useAppSelector((state) => state.login.existingUser);
+
+  const [userDataError, setUserDataError] = useState(false);
+
+  const isUserExisting = useAppSelector((state) => state.wizard.existingUser);
   const handleNextStep = () => {
     setCurrentStep((prevStep) => prevStep + 1);
   };
@@ -43,7 +46,7 @@ function WizardModal({ isOpen, handleClose }: WizardModalProps) {
         >
           <EmailStep isError={emailError} onError={setEmailError} />
         </Step>
-        {isUserExisting && (
+        {isUserExisting ? (
           <Step
             handleStepChange={handleNextStep}
             title="Write your password"
@@ -53,6 +56,20 @@ function WizardModal({ isOpen, handleClose }: WizardModalProps) {
             buttonType="submit"
           >
             <PasswordStep isError={passwordError} onError={setPasswordError} />
+          </Step>
+        ) : (
+          <Step
+            handleStepChange={handleNextStep}
+            title="Create account"
+            isActive={currentStep === 1}
+            disabled={userDataError}
+            buttonTitle="Create"
+            buttonType="submit"
+          >
+            <CreateAccountStep
+              isError={userDataError}
+              onError={setUserDataError}
+            />
           </Step>
         )}
       </Wizard>
