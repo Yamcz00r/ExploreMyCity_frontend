@@ -1,6 +1,6 @@
 import { Box, TextField, InputAdornment, IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import type { InputStepProps } from "./EmailStep";
+import type { InputStepProps } from "./WelcomeStep";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { loginPassword } from "../../wizardSlice";

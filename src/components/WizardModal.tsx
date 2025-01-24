@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Modal } from "@mui/material";
 import Wizard from "./Wizard";
-import EmailStep from "./Steps/EmailStep";
+import WelcomeStep from "./Steps/WelcomeStep";
 import PasswordStep from "./Steps/PasswordStep";
 import Step from "./Steps/Step";
 import CreateAccountStep from "./Steps/CreateAccountStep";
@@ -40,11 +40,15 @@ function WizardModal({ isOpen, handleClose }: WizardModalProps) {
       >
         <Step
           handleStepChange={handleNextStep}
-          title="Write your email"
+          title="Hello, Choose the authentication method"
           isActive={currentStep === 0}
           disabled={emailError}
         >
-          <EmailStep isError={emailError} onError={setEmailError} />
+          <WelcomeStep
+            closeWizard={handleClose}
+            isError={emailError}
+            onError={setEmailError}
+          />
         </Step>
         {isUserExisting ? (
           <Step

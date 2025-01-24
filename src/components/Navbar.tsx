@@ -1,10 +1,14 @@
 import { Box, Typography, Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useState } from "react";
+import { useAppSelector } from "../hooks";
 import WizardModal from "./WizardModal";
 function Navbar() {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
+
+  const token = useAppSelector((state) => state.user.token);
+  const user_id = useAppSelector((state) => state.user.user_id);
 
   const handleOpenModal = () => {
     setOpen(true);

@@ -7,7 +7,7 @@ import {
   MenuItem,
   SelectChangeEvent,
 } from "@mui/material";
-import type { InputStepProps } from "./EmailStep";
+import type { InputStepProps } from "./WelcomeStep";
 import { ChangeEvent, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../hooks";
 import {
@@ -37,7 +37,6 @@ function CreateAccountStep({ onError }: InputStepProps) {
   const [lastNameError, setLastNameError] = useState(false);
   const [codeError, setCodeError] = useState(false);
   const [countryError, setCountryError] = useState(false);
-  console.log(enteredPhoneNumber);
   const handleChangeCountryCode = (event: SelectChangeEvent) => {
     dispatch(setUserCountryCode(event.target.value));
   };

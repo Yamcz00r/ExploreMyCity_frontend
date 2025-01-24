@@ -1,17 +1,29 @@
-import { TextField, Box, InputAdornment } from "@mui/material";
+import {
+  TextField,
+  Box,
+  InputAdornment,
+  Divider,
+  Typography,
+} from "@mui/material";
 import { Email } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { loginEmail } from "../../wizardSlice";
-
+import { useTheme } from "@mui/material/styles";
+import GoogleRedirect from "./GoogleRedirect";
+import FacebookRedirect from "./FacebookRedirect";
 export type InputStepProps = {
   isError: boolean;
   onError: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function EmailStep({ isError, onError }: InputStepProps) {
+interface SpecialStepProps extends InputStepProps {
+  closeWizard: () => void;
+}
+
+function WelcomeStep({ isError, onError, closeWizard }: SpecialStepProps) {
   const enteredEmail = useAppSelector((state) => state.wizard.email);
   const dispatch = useAppDispatch();
-
+  const theme = useTheme();
   const inputBlurHandler = () => {
     if (enteredEmail.length <= 0 || !enteredEmail.includes("@")) {
       onError(true);
@@ -22,9 +34,17 @@ function EmailStep({ isError, onError }: InputStepProps) {
 
   return (
     <>
+      <Box sx={{ width: "100%" }}>
+        <GoogleRedirect closeWizard={closeWizard} />
+        <FacebookRedirect closeWizard={closeWizard} />
+      </Box>
+      <Divider sx={{ marginY: "2rem" }}>
+        <Typography color={theme.palette.text.secondary}>
+          Login with your email
+        </Typography>
+      </Divider>
       <Box sx={{ width: "100%", marginY: "1rem" }}>
         <TextField
-          autoFocus={true}
           fullWidth
           value={enteredEmail}
           error={isError}
@@ -49,4 +69,4 @@ function EmailStep({ isError, onError }: InputStepProps) {
     </>
   );
 }
-export default EmailStep;
+export default WelcomeStep;

@@ -3,7 +3,7 @@ import type { RootState } from "./store";
 
 export interface UserState {
   user_id: string;
-  token: string;
+  token: string | undefined;
 }
 
 const initialState: UserState = {
